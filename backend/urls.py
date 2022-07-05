@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from blog import views as blog_views
+from garden import views as garden_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('blog/', blog_views.latest, name='latest'),
+    path('blog/<int:post_id>/', blog_views.findOne, name='onepost'),
+    path('garden/', garden_views.latest, name='latest'),
+    path('garden/<int:entry_id>/', garden_views.findOne, name='onepost'),
 ]
