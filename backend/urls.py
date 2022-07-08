@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from blog import views as blog_views
 from garden import views as garden_views
-from media import views as media_views
+from tags import views as tags_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +30,8 @@ urlpatterns = [
     path('garden/', garden_views.latest, name='latestentries'),
     path('garden/<int:entry_id>/', garden_views.findOne, name='oneentry'),
     path('garden/search/', garden_views.searchOne, name='oneentrysearch'),
-    path('media/', media_views.latest, name='latestmedia'),
-    path('media/<int:media_id>/', media_views.findOne, name='onemedia'),
+    path('categories/', tags_views.list_Categories, name='listCategories'),
+    path('tags/', tags_views.list_Tags, name='listTags'),
 ]
 
 if settings.DEBUG:

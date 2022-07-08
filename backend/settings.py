@@ -34,7 +34,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'garden.apps.GardenConfig',
-    'media.apps.MediaConfig',
     'tags.apps.TagsConfig',
     'easy_thumbnails',
     'filer',
