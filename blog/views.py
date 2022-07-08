@@ -51,7 +51,7 @@ def findOne(request, post_id):
     return JsonResponse(output, safe=False)
 
 
-def searchOne(request):
+def search(request):
     search_string = request.GET.get('search','')
     search_vector = SearchVector('title','intro','body')
 

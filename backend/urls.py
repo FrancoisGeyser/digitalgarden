@@ -20,18 +20,20 @@ from django.conf.urls.static import static
 from blog import views as blog_views
 from garden import views as garden_views
 from tags import views as tags_views
+from search import views as search_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('filer/', include('filer.urls')),
     path('blog/', blog_views.latest, name='latestposts'),
     path('blog/<int:post_id>/', blog_views.findOne, name='onepost'),
-    path('blog/search/', blog_views.searchOne, name='onepostsearch'),
+    path('blog/search/', blog_views.search, name='postsearch'),
     path('garden/', garden_views.latest, name='latestentries'),
     path('garden/<int:entry_id>/', garden_views.findOne, name='oneentry'),
-    path('garden/search/', garden_views.searchOne, name='oneentrysearch'),
+    path('garden/search/', garden_views.search, name='entrysearch'),
     path('categories/', tags_views.list_Categories, name='listCategories'),
     path('tags/', tags_views.list_Tags, name='listTags'),
+    path('search/', search_views.search, name='search')
 ]
 
 if settings.DEBUG:
