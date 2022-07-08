@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 from django.http import JsonResponse
 
 from .models import Entry
@@ -41,7 +42,10 @@ def searchOne(request):
     search_string = request.GET.get('search','')
     search_vector = SearchVector('title','body')
 
-    post = list(Entry.objects.annotate(search=search_vector).filter(search__icontains=search_string))
+    post = list(Entry.objects.annotate(search=search_vector).filter(Q(search__icontains=search_string) 
+        | Q(categories__name__icontains=search_string) 
+        | Q(tags__name__icontains=search_string)))
+
     output = []
     for p in post:
         tags = [tag.name for tag in p.tags.all()]
