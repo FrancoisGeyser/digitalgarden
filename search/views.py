@@ -1,16 +1,20 @@
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from blog.models import Post
 from garden.models import Entry
 
-def search(request):
-    search_string = request.GET.get('search','')
+@api_view()
+def search(request, search_string = ""):
+    """
+    Return a list after searching all Post and Entry models as well as  all categories and tags.
+    """
     search_vector_blog = SearchVector('title','intro','body')
     search_vector_garden = SearchVector('title','body')
 
-    if search_string == '':
-        return JsonResponse(None, safe=False)
+    if search_string == None:
+        return Response({'message':'No search term provided'}, status=400)
 
     post = list(Post.objects.annotate(search=search_vector_blog).filter( Q(search__icontains=search_string) 
         | Q(categories__name__icontains=search_string) 
@@ -58,4 +62,4 @@ def search(request):
             "garden": garden_output,
             }
 
-    return JsonResponse(output, safe=False)
+    return Response(output)

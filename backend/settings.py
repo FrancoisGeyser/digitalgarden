@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'filer',
     'mptt',
     'ckeditor',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -137,6 +138,14 @@ FILER_CANONICAL_URL = 'sharing/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+REST_FRAMEWORK = {
+   'DEFAULT_RENDERER_CLASSES': [
+       'rest_framework.renderers.JSONRenderer',
+   ]
+}
+
+
 CKEDITOR_CONFIGS = {
     'default': {
         'enterMode': 1, # 1 for add p tags and 2 for add br tags
@@ -195,3 +204,4 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
