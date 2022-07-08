@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n*jr%s-1qdh$=glv32r$h0yqsv1gw@m$j0^6^ae0t6bc9(i96m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1','https://fg-digitalgarden.herokuapp.com']
 
 
 # Application definition
