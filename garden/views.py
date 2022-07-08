@@ -1,12 +1,16 @@
-from django.shortcuts import render
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
-from django.http import JsonResponse
 
 from .models import Entry
 # Create your views here.
 
-def latest(request):
+@api_view()
+def latest_entries(request):
+    """
+    Return a list of the latest Entries.
+    """
     latest = Entry.objects.order_by('-pub_date')
     output = []
     for p in latest:
@@ -20,9 +24,14 @@ def latest(request):
             'tags': tags,
             'categories': categories,
             })
-    return JsonResponse(output, safe=False)
+    return Response(output)
 
-def findOne(request, entry_id):
+
+@api_view()
+def findOne_entry(request, entry_id):
+    """
+    Return a entry matching the given {id}.
+    """
     post = list(Entry.objects.filter(id=entry_id))
     output = []
     for p in post:
@@ -36,11 +45,19 @@ def findOne(request, entry_id):
             'tags': tags,
             'categories': categories,
             })
-    return JsonResponse(output, safe=False)
+    return Response(output)
 
-def search(request):
-    search_string = request.GET.get('search','')
+
+@api_view()
+def search_entries(request, search_string=None):
+    """
+    Return a list matching the given ?search=''.
+    """
+
     search_vector = SearchVector('title','body')
+
+    if search_string == None:
+        return Response({'message':'No search term provided'}, status=400)
 
     post = list(Entry.objects.annotate(search=search_vector).filter(Q(search__icontains=search_string) 
         | Q(categories__name__icontains=search_string) 
@@ -58,4 +75,4 @@ def search(request):
             'tags': tags,
             'categories': categories,
             })
-    return JsonResponse(output, safe=False)
+    return Response(output)
